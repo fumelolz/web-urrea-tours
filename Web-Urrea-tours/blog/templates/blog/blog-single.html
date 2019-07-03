@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+	{% block content %}	
+
+			<!-- start banner Area -->
+			<section class="about-banner relative" style="background: url(
+								{% if banners.bannerAbout == '' %}
+									{% static 'core/img/hero-bg.jpg' %}
+				                {% else %}
+					            	{{ banners.bannerAbout.url }}
+				                {% endif %}
+			) center;">
+				<div class="overlay overlay-bg"></div>
+				<div class="container">				
+					<div class="row d-flex align-items-center justify-content-center">
+						<div class="about-content col-lg-12">
+							<h1 class="text-white">
+								Blog Details Page				
+							</h1>	
+							<p class="text-white link-nav"><a href="{% url 'core-home' %}">Home </a>  <span class="lnr lnr-arrow-right"></span><a href="{% url 'core-blog-home' %}">Blog </a> <span class="lnr lnr-arrow-right"></span> <a href="{% url 'blog-single' post.id post.title|slugify%}"> {{post.title|title}}</a></p>
+						</div>	
+					</div>
+				</div>
+			</section>
+			<!-- End banner Area -->					  
+			
+			<!-- Start post-content Area -->
+			<section class="post-content-area single-post-area">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 posts-list">
+							<div class="single-post row">
+								<div class="col-lg-12">
+									<div class="feature-img">
+										<img class="img-fluid mt-3" src="{{ post.image.url }}" alt="">
+									</div>									
+								</div>
+								<div class="col-lg-3  col-md-3 meta-details">
+									Categorias
+									<ul class="tags">
+										    {% for category in post.categories.all %}
+                  								 <li >
+													<a style="color: red;" href="{% url 'category' category.id %}">{{ category.name|title }}{% if not forloop.last %},{% endif %}</a>
+												</li>
+                							{% endfor %}
+									</ul>
+									<div class="user-details row">
+										<p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{ post.author }}</a> <span class="lnr lnr-user"></span></p>
+										<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.published|date:"dS M, Y" }}</a> <span class="lnr lnr-calendar-full"></span></p>
+										<p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.views }}</a> <span class="lnr lnr-eye"></span></p>			
+									</div>
+								</div>
+								<div class="col-lg-9 col-md-9">
+									<h3 class="mt-20 mb-20">{{ post.title|title }}</h3>
+									<p class="excert">
+										{{ post.content|safe }}
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 sidebar-widgets">
+							<div class="widget-wrap">
+								<div class="single-sidebar-widget popular-post-widget mt-0">
+									<h4 class="popular-title">Popular Posts</h4>
+									<div class="popular-post-list">
+										{% for p in postAlls %}
+										<div class="single-post-list d-flex flex-row align-items-center" style=" height: 150px;">
+											<div class="thumb">
+												<a href="{% url 'blog-single' p.id p.title|slugify%}"><img  class="img-thumbnail" src="{{ p.image.url }}" ></a>
+											</div>
+											<div class="details">
+												<a href="{% url 'blog-single' p.id p.title|slugify%}"><h6>{{ p.title }}</h6></a>
+												<p>{{ p.published|date:"dS M, Y" }}</p>
+											</div>
+										</div>
+										{% endfor %}														
+									</div>
+								</div>
+								<div class="single-sidebar-widget ads-widget">
+									<a href="#"><img class="img-fluid" src="{% static 'core/img/blog/ads-banner.jpg' %}" alt=""></a>
+								</div>
+								<div class="single-sidebar-widget post-category-widget">
+									<h4 class="category-title">Post Catgories</h4>
+									<ul class="cat-list">
+										
+										{% for category in categorys %}
+										<li>
+											<a href="{% url 'category' category.id %}" class="d-flex justify-content-between">
+												{{ category.name|upper }}
+											</a>
+										</li>
+										{% endfor %}														
+									</ul>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>	
+			</section>
+			<!-- End post-content Area -->
+
+	{% endblock content %}
+
+	

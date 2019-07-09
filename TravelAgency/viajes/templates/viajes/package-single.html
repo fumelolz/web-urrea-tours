@@ -1,0 +1,225 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+
+	{% block content %}	
+			<!-- start banner Area -->
+			<section class="about-banner relative" style="background: url(
+								{% if banners.bannerAbout == '' %}
+									{% static 'core/img/hero-bg.jpg' %}
+				                {% else %}
+					            	{{ banners.bannerAbout.url }}
+				                {% endif %}
+			) center;">
+				<div class="overlay overlay-bg"></div>
+				<div class="container">				
+					<div class="row d-flex align-items-center justify-content-center">
+						<div class="about-content col-lg-12">
+							<h1 class="text-white">
+								{{destino.destino}}				
+							</h1>	
+							<p class="text-white link-nav"><a href="{% url 'core-home' %}">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="{% url 'core-packages' %}"> Destinos</a></p>
+						</div>	
+					</div>
+				</div>
+			</section>
+			<!-- End banner Area -->	
+
+			{% if destino.oferta == 1 %}
+			<div class="container mt-5 mb-5">
+				<div class="alert alert-success" style="text-align:center;"><h2>Oferta {{ destino.porcentajeoferta }}% de descuento en este paquete</h2></div>
+			</div>
+			{% endif %}
+
+			<!-- Start insurence-one Area -->
+			<section class="insurence-one-area section-gap">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-lg-6 insurence-left">
+							<img class="img-fluid img-one" src="{{destino.image.url}}" alt="">
+						</div>
+						<div class="col-lg-6 insurence-right">
+							
+							<h1>{{destino.destino}}</h1>
+							<p>
+								{{destino.descripcion}}
+							</p>
+							<form action="{% url 'core-contact' %}" method="POST">
+								{% csrf_token %}
+								<button name="pedirinfo" type="submit" class="genric-btn info circle arrow" value="{{ destino.id }}">Pedir información</button>
+								<a href="#galeria" ><button class="genric-btn info circle arrow">Ver Galeria</button></a>
+							</form>
+							
+						</div>
+
+					</div>
+				</div>	
+			</section>
+			<!-- End insurence-one Area -->
+
+			<!-- Start insurence-two Area -->
+			<section class="insurence-two-area pb-120 mt-5">
+				<div class="container">
+					<div class="row align-items-center">
+						{% if destino.inc.all.count > 0 %}
+						<div class="col-lg-6 insurence-left">
+							<h6 class="text-uppercase">Incluye</h6>
+							<div class="list-wrap">
+								<ul>
+									{% for incluye in destino.inc.all %}
+									<li>{{ incluye }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						{% endif %}	
+						{% if destino.noinc.all.count > 0 %}
+						<div class="col-lg-6 insurence-right">
+							<h6 class="text-uppercase">No Incluye</h6>
+							<div class="list-wrap">
+								<ul>
+									{% for noincluye in destino.noinc.all %}
+									<li>{{ noincluye }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						{% endif %}						
+					</div>
+				</div>	
+			</section>
+
+<!-- End insurence-two Area -->	
+
+<!--Start Paquetes y Datos del paquete-->
+
+<div class="card text-center">
+  <div class="card-header" style="background-color: #6AD2FD;">
+    <h1 style="color:white;">TEMPORADA BAJA</h1>
+  </div>
+  <div class="card-body">
+    <h2 class="card-title">Para reservas entre el 1 de julio al 12 de diciembre</h2>
+
+	{% for plan in destino.plan_paquete.all %}
+		{% if plan.tipo_id == 2 %}
+			<h5 class="card-title">{{ plan.nombre }}</h5>
+			<table class="table table-bordered">
+		  <thead>
+		    <tr>
+		      <th scope="col">Hotel</th>
+		      <th scope="col">Categoria</th>
+		      <th scope="col">Sencilla</th>
+		      <th scope="col">Doble</th>
+		      <th scope="col">Triple</th>
+		      <th scope="col">Niños de 2-11 años</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+
+		  	{% for p in plan.get_plans.all %}
+		  	<tr>
+		  	   <th>{{ p.hotel }}</th>
+		  	   <th>{{ p.categoriaHotel }} Estrellas</th>
+		  	   <th>{{ p.sencilla|intcomma }}</th>
+		  	   <th>{{ p.doble|intcomma }}</th>
+		  	   <th>{{ p.triple|intcomma }}</th>
+		  	   <th>{{ p.niños|intcomma }}</th>
+		  	</tr>
+		  	<tr>
+		  	   <th style="text-align: right;">Noche Adicional</th>
+		  	   <th></th>
+		  	   <th>{{ p.extrasencilla|intcomma }}</th>
+		  	   <th>{{ p.extradoble|intcomma }}</th>
+		  	   <th>{{ p.extratriple|intcomma }}</th>
+		  	   <th>{{ p.extraniños|intcomma }}</th>
+		  	</tr>
+		  	{% endfor %}
+
+
+
+		  </tbody>
+		</table>
+		{% endif %}
+	{% endfor %}
+
+  </div>
+</div>
+<!--End Paquetes y Datos del paquete-->
+
+
+<!--Start Paquetes y Datos del paquete-->
+<div class="card text-center mt-5 mb-5">
+  <div class="card-header" style="background-color: #FF513C;">
+    <h1 style="color: white;">TEMPORADA ALTA</h1>
+  </div>
+  <div class="card-body">
+    <h2 class="card-title">Para reservas semana de receso Escolar/entre el 16 de Diciembre 2019 al 20 de Enero 2020</h2>
+
+	{% for plan in destino.plan_paquete.all %}
+		{% if plan.tipo_id == 1 %}
+			<h5 class="card-title">{{ plan.nombre }}</h5>
+			<table class="table table-bordered">
+		  <thead>
+		    <tr>
+		      <th scope="col">Hotel</th>
+		      <th scope="col">Categoria</th>
+		      <th scope="col">Sencilla</th>
+		      <th scope="col">Doble</th>
+		      <th scope="col">Triple</th>
+		      <th scope="col">Niños de 2-11 años</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+
+		  	{% for p in plan.get_plans.all %}
+		  	<tr>
+		  	   <th>{{ p.hotel }}</th>
+		  	   <th>{{ p.categoriaHotel }} Estrellas</th>
+		  	   <th>{{ p.sencilla|intcomma }}</th>
+		  	   <th>{{ p.doble|intcomma }}</th>
+		  	   <th>{{ p.triple|intcomma }}</th>
+		  	   <th>{{ p.niños|intcomma }}</th>
+		  	</tr>
+		  	<tr>
+		  	   <th style="text-align: right;">Noche Adicional</th>
+		  	   <th></th>
+		  	   <th>{{ p.extrasencilla|intcomma }}</th>
+		  	   <th>{{ p.extradoble|intcomma }}</th>
+		  	   <th>{{ p.extratriple|intcomma }}</th>
+		  	   <th>{{ p.extraniños|intcomma }}</th>
+		  	</tr>
+		  	{% endfor %}
+
+		  </tbody>
+		</table>
+		{% endif %}
+	{% endfor %}
+
+  </div>
+</div>
+<!--End Paquetes y Datos del paquete-->
+
+
+
+
+ 
+
+
+
+<div class="container section-top-border" id="galeria">
+	<h3>Galeria de imagenes</h3>
+	<div class="row gallery-item">
+
+		{% for imagen in destino.img.all %}
+		<div class="col-md-4">
+			<a href="{{ imagen.image.url }}" class="img-gal">
+				<div class="single-gallery-image" style="background: url({{ imagen.image.url }});"></div>
+			</a>
+		</div>
+		{% endfor %}
+
+
+	</div>
+</div>		
+
+{% endblock content %}

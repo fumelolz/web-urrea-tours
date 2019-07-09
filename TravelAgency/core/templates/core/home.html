@@ -1,0 +1,252 @@
+{% extends 'core/base.html' %}
+{% load static %} 
+{% load humanize %}
+ 
+	{% block content %}	
+			
+			<!-- start banner Area -->
+			<section class="banner-area relative" style="background: url( 
+								{% if banners.bannerInicio == '' %}
+									{% static 'core/img/hero-bg.jpg' %}
+				                {% else %}
+					            	{{ banners.bannerInicio.url }}
+				                {% endif %}
+			) center;">
+				<div class="overlay overlay-bg"></div>				
+				<div class="container">
+					<div class="row fullscreen align-items-center justify-content-between">
+						<div class="col-lg-6 col-md-6 banner-left">
+							<h6 class="text-white">{{ bannerPrincipal.subtitle }}</h6>
+							<h1 class="text-white">{{ bannerPrincipal.title }}</h1>
+							<p class="text-white">{{ bannerPrincipal.content }}</p>
+							
+							{% if bannerPrincipal.url == None %}
+							{% else %}
+							<a href="{{ bannerPrincipal.url }}" class="primary-btn text-uppercase">{{ bannerPrincipal.NameBtn }}</a>
+							{% endif %}
+
+						</div> 
+
+						<div class="col-lg-4 col-md-6 banner-right mt-5">
+							<ul class="nav nav-tabs" id="myTab" role="tablist"> 
+							  <li class="nav-item">
+							    <a class="nav-link active">Destinos</a>
+							  </li> 
+							</ul>
+							<div class="tab-content" id="myTabContent">
+							  <div class="tab-pane fade show active" id="flight" role="tabpanel" aria-labelledby="flight-tab">
+								<form class="form-wrap" action="{% url 'search' %}" method="GET" autocomplete="off">
+									<legend>Destino o Pais</legend>
+									  <input value="" placeholder="Escoge tu destino" class="form-control" list="destinos" name="destino">
+									  <datalist id="destinos">
+									    {% for destino in todosdestinos %}
+									    <option value="{{ destino.destino }}">{{ destino.destino }}</option>
+									    {% endfor %}
+									  </datalist>
+											<select class="form-control" name="pais">
+												<option value="">Selecciona pais</option>
+												{% for pais in paises %}
+												<option value="{{ pais.name }}">{{ pais.name }}</option>
+												
+												{% endfor %}
+											</select>
+									
+
+									<button type="submit" class="primary-btn text-uppercase">Buscar</button>									
+								</form>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>					
+			</section>
+			<!-- End banner Area -->
+
+			<!-- Start popular-destination Area -->
+			<section class="popular-destination-area section-gap">
+				<div class="container">
+		            <div class="row d-flex justify-content-center">
+		                <div class="menu-content pb-70 col-lg-8">
+		                    <div class="title text-center">
+		                        <h1 class="mb-10">Nuevos Destinos</h1>
+		                        <p>Todos vivimos en una época que pertenece a los jóvenes de corazón. Vida que se está volviendo extremadamente rápida, día.</p>
+		                    </div>
+		                </div>
+		            </div>						
+					<div class="row">
+
+						{% for destino in destinos %}
+						
+							
+								<div class="col-lg-4 mt-4">
+									<div class="single-destination relative">
+										<div class="thumb relative">
+											<div class="overlay overlay-bg"></div>
+											<img style="height: 300px;" class="img-fluid" src="{{ destino.image.url }}" alt="">
+										</div>
+										<div class="desc">	
+											<a href="{% url 'destino' destino.id %}" class="price-btn">Ver</a>			
+											
+											<p>{{ destino.destino }}</p>			
+										</div>
+									</div>
+								</div>
+							
+							
+						{% endfor %}
+
+					</div>
+				</div>	
+			</section>
+			<!-- End popular-destination Area -->
+	
+			
+			<!-- Start testimonial Area -->
+		    <section class="testimonial-area section-gap">
+		        <div class="container">
+		            <div class="row d-flex justify-content-center">
+		                <div class="menu-content pb-70 col-lg-8">
+		                    <div class="title text-center">
+		                        <h1 class="mb-10">Testimonios de nuestros clientes</h1>
+		                        <p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur nihil nulla recusandae sit iusto autem aut necessitatibus odio fugiat itaque.</strong></p>
+		                    </div>
+		                </div>
+		            </div>
+
+		            <div class="row">
+		                <div class="active-testimonial">
+		                	{% for testimonio in testimonios %}
+							
+							<div class="single-testimonial item d-flex flex-row">
+								<div class="thumb">
+		                           
+		                        </div>
+		                        <div class="desc">
+		                            <p>
+		                                {{ testimonio.content }}		     
+		                            </p>
+		                            <h4>{{testimonio.name}}</h4>
+	                            	<div class="star">
+
+	                            		{% if testimonio.starts == 1 %}
+											
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+
+	                            		{% elif testimonio.starts == 2 %}
+											
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+
+										{% elif testimonio.starts == 3 %}
+											
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star "></span>
+											 <span class="fa fa-star "></span>
+
+										{% elif testimonio.starts == 4 %}
+											
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star "></span>
+
+										{% elif testimonio.starts == 5 %}
+											
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+											 <span class="fa fa-star checked"></span>
+
+	                            		{% endif %}
+														
+									</div>	
+		                        </div>
+		                    </div>
+
+		                	{% endfor %}
+	                    		                    
+		                </div>
+		            </div>
+		        </div>
+		    </section>
+		    <!-- End testimonial Area -->
+
+			<!-- Start home-about Area -->
+			<section class="home-about-area">
+				<div class="container-fluid">
+					<div class="row align-items-center justify-content-end">
+						<div class="col-lg-6 col-md-12 home-about-left">
+							<h1>
+								{{ noticia.title }}
+							</h1>
+							<p>
+								{{ noticia.content }}
+							</p>
+							<a href="{{ noticia.url }}" class="primary-btn text-uppercase">{{ noticia.btn }}</a>
+						</div>
+						<div class="col-lg-6 col-md-12 home-about-right no-padding">
+							<img class="img-fluid" src="{{ noticia.image.url }}" alt="">
+						</div>
+					</div>
+				</div>	
+			</section>
+			<!-- End home-about Area -->
+			
+	
+			<!-- Start blog Area -->
+			<section class="recent-blog-area section-gap">
+				<div class="container">
+					<div class="row d-flex justify-content-center">
+						<div class="menu-content pb-60 col-lg-9">
+							<div class="title text-center">
+								<h1 class="mb-10">Ultimos blogs agregados</h1>
+								<p>Mira lo que pasa en un viaje</p>
+							</div>
+						</div>
+					</div>							
+					<div class="row">
+						<div class="active-recent-blog-carusel">
+							
+							{% for post in posts %}
+								
+								<div class="single-recent-blog-post item">
+									<div class="thumb">
+										<img style="height: 200px; width: 400px;" class="img-fluid" src="{{ post.image.url }}" alt="">
+									</div>
+									<div class="details">
+										<div class="tags">
+											<ul>
+                 							{% for category in post.categories.all %}
+                  								 <li>
+													<a href="{% url 'category' category.id %}">{{ category.name }}</a>
+												</li>
+                							{% endfor %}										
+											</ul>
+										</div>
+										<a href="{% url 'blog-single' post.id post.title|slugify%}" ><h4 class="title">{{ post.title }}</h4></a>
+										<p>
+											{{ post.content|truncatewords:10|safe }}
+										</p>
+										<h6 class="date">{{ post.published|naturaltime }}</h6>
+									</div>	
+								</div>
+
+							{% endfor %}
+						</div>
+					</div>
+				</div>	
+			</section>
+
+
+	{% endblock content %}	

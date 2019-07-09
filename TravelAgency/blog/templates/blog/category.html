@@ -1,0 +1,131 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+<!--{% block title %}Blog{% endblock title %}-->
+
+{% block content %}
+
+<section class="about-banner relative" id="home" style="background: url(
+                {% if banners.bannerAbout == '' %}
+                  {% static 'core/img/hero-bg.jpg' %}
+                        {% else %}
+                        {{ banners.bannerAbout.url }}
+                        {% endif %}) bottom;">  
+        <div class="overlay overlay-bg"></div>
+        <div class="container">       
+          <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content blog-header-content col-lg-12">
+              <h1 class="text-white">
+                {{bns.title }} 
+              </h1> 
+              <p class="text-white">
+                {{bns.content }}
+              </p>
+              {% if bannerPrincipal.url == None %}
+              {% else %}
+              <a href="{{ bns.url }}" class="primary-btn">{{ bns.NameBtn }}</a>
+              {% endif %}
+              
+            </div>  
+          </div>
+        </div>
+      </section>
+      <!-- End banner Area -->          
+
+      <!-- Start post-content Area -->
+      <section class="post-content-area mt-5">
+        <div class="container">
+          <div class="row">
+              <div class="col-lg-8 posts-list">
+            {% for post in category %}
+
+              <div class="single-post row">
+
+                <div class="col-lg-3  col-md-3 meta-details">
+
+                  <ul class="tags">
+                    {% for category in post.categories.all %}
+                       <li><a href="{% url 'category' category.id %}">{{ category.name }}</a></li>{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                  </ul>
+
+                  <div class="user-details row">
+                    <p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{ post.author|title }}</a> <span class="lnr lnr-user"></span></p>
+                    <p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.published|date:"dS M, Y" }}</a> <span class="lnr lnr-calendar-full"></span></p>
+                    <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.views }} Views</a> <span class="lnr lnr-eye"></span></p>
+                    <!--<p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span></p>-->           
+                  </div>
+                </div>
+
+                <div class="col-lg-9 col-md-9 ">
+                  <div class="feature-img">
+                    <img class="img-fluid mt-3" src="{{ post.image.url }}" alt="">
+                  </div>
+                  <a class="posts-title" href="{% url 'blog-single' post.id post.title|slugify %}"><h3>{{ post.title }}</h3></a>
+                  <p class="excert">
+                    {{ post.content|truncatewords:20|safe }}
+                  </p>
+                  <a href="{% url 'blog-single' post.id post.title|slugify %}" class="primary-btn">Ver más</a>
+                </div>
+              </div>
+            {% endfor %}
+
+                       <nav class="blog-pagination justify-content-center d-flex">
+                            <ul class="pagination">
+                              {% if category.has_previous %}
+                              <li class="page-item"><a href="?page=1" class="page-link">first</a></li>
+                              <li class="page-item">
+                                    <a href="?page={{ category.previous_page_number }}" class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">
+                                            <span class="lnr lnr-chevron-left"></span>
+                                        </span>
+                                    </a>
+                                </li>
+                              {% endif %} 
+                              {% for num in category.paginator.page_range %}
+                              {% if category.number == num %}
+                                <li class="page-item active"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                              {% elif num > category.number|add:'-3' and num < category.number|add:'3' %}
+                                <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                              {% endif %}
+                              {% endfor %}   
+                              {% if category.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{ category.next_page_number }}" class="page-link" aria-label="Next">
+                                        <span aria-hidden="true">
+                                            <span class="lnr lnr-chevron-right"></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a href="?page={{ category.paginator.num_pages }}" class="page-link">Last</a></li>
+
+                              {% endif %}                        
+                            </ul>
+                        </nav>
+                        
+            </div> 
+
+            <div class="col-lg-4 sidebar-widgets"> 
+              <div class="widget-wrap">
+                <div class="single-sidebar-widget post-category-widget">
+                  <h4 class="category-title">Categorias</h4>
+                  <ul class="cat-list">
+                    {% for category in categorys %}
+                    <li>
+                      <a href="#" class="d-flex justify-content-between">
+                        <p>{{category.name|title}}</p>
+                        <p>{{category.get_posts.count}}</p>
+                      </a>
+                    </li> 
+                    {% endfor %}
+                            
+                  </ul>
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>  
+      </section>
+      <!-- End post-content Area -->   
+
+{% endblock content %}

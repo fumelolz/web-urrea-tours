@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+	{% block content %}	
+	  
+			<!-- start banner Area -->
+			<section class="about-banner relative" style="background: url(
+								{% if banners.bannerAbout == '' %}
+									{% static 'core/img/hero-bg.jpg' %}
+				                {% else %}
+					            	{{ banners.bannerAbout.url }}
+				                {% endif %}
+			) center;">
+				<div class="overlay overlay-bg"></div>
+				<div class="container">				
+					<div class="row d-flex align-items-center justify-content-center">
+						<div class="about-content col-lg-12">
+							<h1 class="text-white">
+								About Us				
+							</h1>	
+							<p class="text-white link-nav"><a href="{% url 'core-home' %}">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="{% url 'core-about' %}"> About Us</a></p>
+						</div>	
+					</div>
+				</div>
+			</section>
+			<!-- End banner Area -->	
+
+			<!-- Start about-info Area -->
+			<section class="about-info-area section-gap">
+				<div class="container">
+
+					<div class="row align-items-center">
+
+						<div class="col-lg-6 info-left" id="conocenos">
+							<img class="img-fluid" src="{% static 'core/img/imagen1.jpg' %}" alt="">
+						</div>
+						<div class="col-lg-6 info-right" id="conocenos">
+							<h6>Acerca de Nosotros</h6>
+							<h1>Quienes somos?</h1>
+							<p>
+								Urrea Tours es una Agencia de turismo integral, centramos nuestros esfuerzos
+								en prestar un servicio de calidad y eficiente. Coordinamos todos los servicios
+								de un paquete turístico, como tiquetes aéreos, alojamiento, alimentación,
+								traslados, tours, paquetes para quinceañeras, lunas de miel, turismo de
+								aventuras, asistencias médicas, cruceros, entre otros. Igualmente gestionamos
+								todos los servicios de viajes corporativos, convenciones, viajes de incentivos y
+								eventos.
+							</p>
+							<p>
+								Trabajamos con la mejor disposición para que nuestros clientes vivan
+								experiencias memorables.
+							</p>
+						</div>
+
+						<div class="col-lg-6 info-right" id="mision">
+							<h1>Misión</h1>
+							<p>
+								Brindar a nuestros clientes una mayor confiabilidad
+								de nuestros servicios turísticos con gran compromiso
+								en hacer personas felices, en dar respuestas
+								rápidas, precisas y eficientes. Por una buena
+								comunicación y buena atención personalizada,
+								con el fin de superar las expectativas de nuestros
+								clientes con experiencias únicas.
+							</p>
+						</div>
+						<div class="col-lg-6 info-left" id="mision">
+							<img class="img-fluid" src="{% static 'core/img/mis.jpg' %}" alt="">
+						</div>
+
+						<div class="col-lg-6 info-left" id="vision">
+							<img class="img-fluid" src="{% static 'core/img/imagen2.jpg' %}" alt="">
+						</div>
+						<div class="col-lg-6 info-right" id="vision">
+
+							<h1>Visión</h1>
+							<p>
+								Ser la empresa preferida por las personas y la
+								más reconocida en el ámbito turístico a nivel
+								nacional e internacional, por la excelente
+								confiabilidad, seguridad y calidad que se le
+								brindará a nuestros clientes.
+							</p>
+						</div>
+
+						<div class="col-lg-6 info-right" id="objetivo">
+							<h1>Objetivo</h1>
+							<p>
+									Hacer familias y clientes felices, brindar a nuestros
+									clientes experiencias memorables con nuestro amplio
+									portafolio a nivel nacional e internacional, cumplir los
+									sueños de todas las personas que quieran conocer y
+									disfrutar culturas diferentes. Posicionar nuestra marca
+									URREA TOURS como una de las mas confiables y
+									preferidas por todos los viajeros.
+							</p>
+						</div>
+						<div class="col-lg-6 info-left" id="objetivo">
+							<img class="img-fluid" style="width: 60%" src="{% static 'core/img/imagen3.jpg' %}" alt="">
+						</div>
+
+					</div>
+
+					<div class="section-top-border" id="calidad">
+						<h3 class="mb-30">Política de calidad</h3>
+						<div class="row">
+							<div class="col-lg-12">
+								<blockquote class="generic-blockquote">
+									URREA TOURS es una empresa comprometida con el desarrollo
+									sostenible, que respeta el patrimonio natural y cultural de cada país,
+									promoviendo con clientes, proveedores y empleados prácticas
+									responsables con el medio ambiente, comunidades locales y patrimonio
+									cultural. Así mismo apoya el desarrollo económico de la región donde
+									opera y de los destinos que comercializa.
+								</blockquote>
+							</div>
+						</div>
+					</div>
+
+					<div class="section-top-border" id="calidad">
+						<h3 class="mb-30">Politica de calidad y Sostenibilidad</h3>
+						<div class="row">
+							<div class="col-lg-12">
+								<blockquote class="generic-blockquote">
+									URREA TOURS es una empresa comprometida con el desarrollo sostenible, que
+									respeta el patrimonio natural y cultural de cada país, promoviendo con
+									clientes, proveedores y empleados prácticas responsables con el medio
+									ambiente, comunidades locales y patrimonio cultural. Así mismo apoya el
+									desarrollo económico de la región donde opera y de los destinos que
+									comercializa. Estamos comprometidos con la prevención de la explotación
+									sexual y comercial de niñas, niños y adolescentes y el cumplimiento de las leyes
+									de nuestro país. Medimos nuestros resultados para conseguir mejora continua
+									en nuestros procesos, obtener mejores resultados y favorecer a todos los
+									colombianos con nuestra actividad.
+								</blockquote>
+							</div>
+						</div>
+					</div>
+
+				</div>	
+			</section>
+			<!-- End about-info Area -->
+
+	{% endblock content %}
